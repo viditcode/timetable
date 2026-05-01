@@ -1,0 +1,263 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.wrap { padding: 1.5rem 0; }
+.tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.tab { padding: 7px 16px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); font-size: 13px; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all .15s; }
+.tab.active { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+.section { display: none; }
+.section.active { display: block; }
+.phase-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; margin-bottom: 6px; }
+.phase-learn { background: #E6F1FB; color: #0C447C; }
+.phase-earn { background: #EAF3DE; color: #3B6D11; }
+.phase-scale { background: #EEEDFE; color: #3C3489; }
+.timetable { display: grid; grid-template-columns: 90px repeat(7, 1fr); gap: 2px; font-size: 12px; }
+.th { padding: 6px 4px; text-align: center; font-weight: 500; font-size: 12px; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+.time-label { padding: 8px 6px; font-size: 11px; color: var(--color-text-tertiary); display: flex; align-items: center; border-right: 0.5px solid var(--color-border-tertiary); }
+.cell { padding: 7px 5px; border-radius: 6px; font-size: 11px; line-height: 1.4; min-height: 52px; display: flex; align-items: center; justify-content: center; text-align: center; }
+.cell.empty { background: transparent; }
+.cell.tech { background: #E6F1FB; color: #0C447C; }
+.cell.finance { background: #EAF3DE; color: #3B6D11; }
+.cell.project { background: #EEEDFE; color: #3C3489; }
+.cell.exercise { background: #E1F5EE; color: #085041; }
+.cell.review { background: #FAEEDA; color: #633806; }
+.cell.rest { background: var(--color-background-secondary); color: var(--color-text-tertiary); }
+.cell.free { background: var(--color-background-secondary); color: var(--color-text-tertiary); font-style: italic; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 1.25rem; }
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); }
+.leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.card h3 { font-size: 14px; font-weight: 500; margin-bottom: .75rem; color: var(--color-text-primary); }
+.milestone-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.milestone-row:last-child { border-bottom: none; }
+.m-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+.m-num.learn { background: #E6F1FB; color: #0C447C; }
+.m-num.earn { background: #EAF3DE; color: #3B6D11; }
+.m-num.scale { background: #EEEDFE; color: #3C3489; }
+.m-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+.m-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.stat-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.stat-val { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.review-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-secondary); }
+.review-item:last-child { border-bottom: none; }
+.review-q { width: 16px; height: 16px; border-radius: 3px; border: 0.5px solid var(--color-border-secondary); flex-shrink: 0; margin-top: 1px; }
+.tip-box { background: var(--color-background-secondary); border-left: 2px solid #378ADD; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 10px; }
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Weekly timetable for working professional targeting ₹1 crore wealth</h2>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('schedule')">Weekly schedule</button>
+  <button class="tab" onclick="show('phases')">Phase guide</button>
+  <button class="tab" onclick="show('milestones')">Milestones & upgrades</button>
+  <button class="tab" onclick="show('review')">Weekly review</button>
+</div>
+
+<div id="schedule" class="section active">
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#B5D4F4"></div>Tech learning</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#C0DD97"></div>Finance</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#CECBF6"></div>Side project</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#9FE1CB"></div>Exercise</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#FAC775"></div>Weekly review</div>
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    <div class="timetable">
+      <div class="th"></div>
+      <div class="th">Mon</div><div class="th">Tue</div><div class="th">Wed</div>
+      <div class="th">Thu</div><div class="th">Fri</div>
+      <div class="th" style="color:var(--color-text-primary);font-weight:500">Sat</div>
+      <div class="th" style="color:var(--color-text-primary);font-weight:500">Sun</div>
+
+      <div class="time-label">Morning<br>6–7 AM</div>
+      <div class="cell exercise">Exercise<br>30–45 min</div>
+      <div class="cell rest">Rest / stretch</div>
+      <div class="cell exercise">Exercise<br>30–45 min</div>
+      <div class="cell rest">Rest / stretch</div>
+      <div class="cell exercise">Exercise<br>30–45 min</div>
+      <div class="cell exercise">Exercise<br>45–60 min</div>
+      <div class="cell rest">Rest / slow<br>morning</div>
+
+      <div class="time-label">Evening<br>8–9 PM</div>
+      <div class="cell tech">Tech learning<br>QA / Backend</div>
+      <div class="cell finance">Finance<br>reading</div>
+      <div class="cell tech">Tech learning<br>AI tools</div>
+      <div class="cell finance">Finance<br>reading</div>
+      <div class="cell project">Side project<br>build / ship</div>
+      <div class="cell empty"></div>
+      <div class="cell empty"></div>
+
+      <div class="time-label">Evening<br>9–10 PM</div>
+      <div class="cell project">Side project<br>work</div>
+      <div class="cell tech">Tech learning</div>
+      <div class="cell project">Side project<br>work</div>
+      <div class="cell tech">Backend /<br>AI practice</div>
+      <div class="cell finance">Finance<br>reading</div>
+      <div class="cell empty"></div>
+      <div class="cell empty"></div>
+
+      <div class="time-label">Weekend<br>Morning</div>
+      <div class="cell empty"></div><div class="cell empty"></div>
+      <div class="cell empty"></div><div class="cell empty"></div>
+      <div class="cell empty"></div>
+      <div class="cell tech">Deep tech /<br>project work<br>10–12 PM</div>
+      <div class="cell project">Project build<br>+ monetize<br>10–12 PM</div>
+
+      <div class="time-label">Weekend<br>Afternoon</div>
+      <div class="cell empty"></div><div class="cell empty"></div>
+      <div class="cell empty"></div><div class="cell empty"></div>
+      <div class="cell empty"></div>
+      <div class="cell project">Freelance /<br>client work<br>3–5 PM</div>
+      <div class="cell review">Weekly review<br>+ plan ahead<br>4–5 PM</div>
+    </div>
+  </div>
+
+  <div class="tip-box">Weekdays = 2 hrs total (1 hr tech + 1 hr project, or 1 hr finance on alternate days). Weekends = 3–4 hrs total. Exercise 4×/week — Mon, Wed, Fri + Sat. Finance 3×/week — Tue, Thu, Fri.</div>
+  <div class="tip-box">This is a flexible template — shift slots by ±1 hour to fit your life. Missing one day is fine. Missing the whole week is a signal to simplify, not quit.</div>
+</div>
+
+<div id="phases" class="section">
+  <div class="card">
+    <h3>Phase 1 — Learn (months 1–4)</h3>
+    <div class="phase-badge phase-learn">Foundation mode</div>
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px;">Your only goal is skill-building and building one small project to completion. No income pressure yet.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+      <div style="padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <div style="font-weight:500;margin-bottom:5px;color:var(--color-text-primary);">Tech focus</div>
+        <div style="color:var(--color-text-secondary);line-height:1.6;">QA automation basics → API testing → 1 AI tool integration → small portfolio project</div>
+      </div>
+      <div style="padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <div style="font-weight:500;margin-bottom:5px;color:var(--color-text-primary);">Finance focus</div>
+        <div style="color:var(--color-text-secondary);line-height:1.6;">Personal budget audit → index funds basics → SIP setup (even ₹500/month) → compound interest math</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Phase 2 — Earn (months 4–12)</h3>
+    <div class="phase-badge phase-earn">Income mode</div>
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px;">Shift 60% of side-project time to client work or monetization. First ₹5K–₹20K/month is the milestone.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+      <div style="padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <div style="font-weight:500;margin-bottom:5px;color:var(--color-text-primary);">Tech focus</div>
+        <div style="color:var(--color-text-secondary);line-height:1.6;">Freelance QA / backend gigs → build & ship 1 paid tool → contribute to open source for visibility</div>
+      </div>
+      <div style="padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <div style="font-weight:500;margin-bottom:5px;color:var(--color-text-primary);">Finance focus</div>
+        <div style="color:var(--color-text-secondary);line-height:1.6;">Invest 20–30% of side income → study equity / mutual funds → build 3-month emergency fund</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Phase 3 — Scale (year 1+)</h3>
+    <div class="phase-badge phase-scale">Scale mode</div>
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px;">Double down on what's working. Automate, delegate, or productize. ₹1L+/month side income → ₹1 crore in 8–12 years with consistent investing.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+      <div style="padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <div style="font-weight:500;margin-bottom:5px;color:var(--color-text-primary);">Tech focus</div>
+        <div style="color:var(--color-text-secondary);line-height:1.6;">SaaS micro-product → AI consulting → build audience / newsletter → hire or collaborate</div>
+      </div>
+      <div style="padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <div style="font-weight:500;margin-bottom:5px;color:var(--color-text-primary);">Finance focus</div>
+        <div style="color:var(--color-text-secondary);line-height:1.6;">Portfolio rebalancing → tax-efficient investing → ELSS + equity → start tracking net worth quarterly</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="milestones" class="section">
+  <div class="tip-box">When you hit a milestone, upgrade your timetable — not before. Premature scaling causes burnout.</div>
+  <div class="card">
+    <h3>Milestone upgrade map</h3>
+    <div class="milestone-row">
+      <div class="m-num learn">1</div>
+      <div>
+        <div class="m-title">First project completed & live</div>
+        <div class="m-desc">Upgrade: Add 30 min of marketing / outreach on Saturday. Start building in public (LinkedIn, Twitter). Reduce pure learning from 2 hrs/day to 1.5 hrs and add 30 min networking.</div>
+      </div>
+    </div>
+    <div class="milestone-row">
+      <div class="m-num earn">2</div>
+      <div>
+        <div class="m-title">First paid income (₹1K–₹5K)</div>
+        <div class="m-desc">Upgrade: Treat side income like a real business — open a separate account. Replace 1 evening tech session with client work. Add monthly income tracking to Sunday review.</div>
+      </div>
+    </div>
+    <div class="milestone-row">
+      <div class="m-num earn">3</div>
+      <div>
+        <div class="m-title">Consistent ₹20K/month side income</div>
+        <div class="m-desc">Upgrade: Invest minimum 25% of all side income automatically. Begin productizing a repeatable skill. Evaluate if daytime job energy is a bottleneck — consider transitions.</div>
+      </div>
+    </div>
+    <div class="milestone-row">
+      <div class="m-num scale">4</div>
+      <div>
+        <div class="m-title">₹50K–₹1L/month side income</div>
+        <div class="m-desc">Upgrade: Hire a VA or junior collaborator for routine tasks. Shift schedule to 80% scaling, 20% learning. Consult a SEBI-registered advisor. Model your ₹1 crore timeline.</div>
+      </div>
+    </div>
+    <div class="milestone-row">
+      <div class="m-num scale">5</div>
+      <div>
+        <div class="m-title">Net worth ₹10L+ invested</div>
+        <div class="m-desc">Upgrade: Rebalance portfolio (equity + debt mix). Begin thinking about passive income (dividend ETFs, REITs). Your timetable at this point should be 50% product/business, 30% finance, 20% learning.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>₹1 crore rough math</h3>
+    <div class="grid2" style="margin-bottom:10px;">
+      <div class="stat-card"><div class="stat-label">Monthly SIP needed</div><div class="stat-val">₹15K</div><div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px;">at 12% returns, 15 yrs</div></div>
+      <div class="stat-card"><div class="stat-label">Timeline to ₹1 cr</div><div class="stat-val">10–15 yrs</div><div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px;">depending on income growth</div></div>
+      <div class="stat-card"><div class="stat-label">Side income target</div><div class="stat-val">₹30–50K/mo</div><div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px;">by year 2–3</div></div>
+      <div class="stat-card"><div class="stat-label">Invest % of side income</div><div class="stat-val">25–40%</div><div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px;">from day 1 of earning</div></div>
+    </div>
+    <button class="tab" onclick="sendPrompt('Show me a detailed ₹1 crore investment projection with monthly SIP amounts and timelines at different income levels')">Show full ₹1 crore projection ↗</button>
+  </div>
+</div>
+
+<div id="review" class="section">
+  <div class="tip-box">Every Sunday, 4–5 PM. This one hour compounds faster than any tutorial. Keep it honest and short.</div>
+  <div class="card">
+    <h3>Sunday weekly review checklist</h3>
+    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:10px;">Honest answers only — no journaling fluff needed</div>
+    <div class="review-item"><div class="review-q"></div><span>Did I complete my scheduled learning sessions this week? (yes / partial / no — and why)</span></div>
+    <div class="review-item"><div class="review-q"></div><span>What did I actually build or ship? One concrete thing.</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Did I exercise 4 days? If not, what got in the way?</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Did I earn anything this week, or take one action toward earning?</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Did I invest / track finances this week?</span></div>
+    <div class="review-item"><div class="review-q"></div><span>What's the one thing I'll protect in next week's schedule — non-negotiable?</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Am I in the right phase? Should I upgrade my timetable?</span></div>
+  </div>
+
+  <div class="card">
+    <h3>Monthly pulse check (last Sunday of the month)</h3>
+    <div class="review-item"><div class="review-q"></div><span>Total hours invested in learning vs project vs finance this month</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Side income this month vs last month</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Net worth change (savings + investments)</span></div>
+    <div class="review-item"><div class="review-q"></div><span>One skill I've improved. One thing to drop or simplify.</span></div>
+    <div class="review-item"><div class="review-q"></div><span>Am I energized or burned out? Adjust intensity accordingly.</span></div>
+  </div>
+
+  <div class="card">
+    <h3>The one rule that makes this work</h3>
+    <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;">Consistency beats intensity. 90 minutes of focused work 5 days/week beats a heroic 8-hour weekend session. If a week collapses, return Monday with zero guilt. The system resets — you don't lose progress by pausing, only by quitting.</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
